@@ -8,20 +8,12 @@ int main(int argc, char* argv[]) {
     const int winWidth = 1400u;
     const int winHeight = 1050u;
     sf::RenderWindow window(sf::VideoMode({ winWidth,winHeight }), "Zuzi Game");
-    // set window frame limit
+    // set window frame limit: recommended(60 - 144)
     window.setFramerateLimit(60);
 
-    // draw shape
+    // draw shape circle with default color white
     const float circleRadius = 50.f;
     sf::CircleShape circle(circleRadius);
-
-    // fill color with custom rgb color
-    int r, g, b, a;
-    r = 97u;
-    g = 188u;
-    b = 133u;
-    a = 255u;
-    circle.setFillColor(sf::Color::White);
 
     // set position top, left (x,y)
     sf::Vector2f circlePos;
@@ -29,6 +21,26 @@ int main(int argc, char* argv[]) {
     circlePos.y = (float)winHeight / 2;
     circle.setPosition(circlePos);
     float circleMoveSpeed = 1.0f;
+
+    // draw rectangular shape
+    sf::Vector2f rectPos;
+    rectPos.x = 33.f;
+    rectPos.y = 33.f;
+    sf::Vector2f rectSize;
+    rectSize.x = 100.f;
+    rectSize.y = 100.f;
+
+    sf::RectangleShape rect;
+    rect.setSize(rectSize);
+    rect.setPosition(rectPos);
+
+    // fill with custom rgb color
+    int r, g, b, a;
+    r = 197u;
+    g = 18u;
+    b = 33u;
+    a = 255u;
+    rect.setFillColor(sf::Color(r, g, b, a));
 
     // load custom font from file
     sf::Font techFont;
@@ -78,6 +90,7 @@ int main(int argc, char* argv[]) {
         window.clear();
         window.draw(circle);
         window.draw(text);
+        window.draw(rect);
         window.display();
     }
 }
