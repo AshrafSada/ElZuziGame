@@ -40,6 +40,12 @@ indent_size = 4
 end_of_line = lf
 indent_size = 4
 
+# C and C++ files
+[*.{c++,cc,cpp,cppm,cxx,h,h++,hh,hpp,hxx,inl,ipp,ixx,tlh,tli}]
+indent_style = spaces
+indent_size = 4
+tab_width= 4
+
 # Dotnet code style settings:
 [*.{cs,vb}]
 
@@ -350,6 +356,7 @@ dotnet_diagnostic.RS0061.severity = error
 dotnet_diagnostic.CA1707.severity = none
 dotnet_diagnostic.RCS1105.severity = none
 
+# Visual Studio generated .editorconfig file with C++ settings.
 [*.{c++,cc,cpp,cppm,cxx,h,h++,hh,hpp,hxx,inl,ipp,ixx,tlh,tli}]
 
 # Visual C++ Code Style settings
@@ -366,22 +373,22 @@ cpp_indent_multi_line_relative_to = innermost_parenthesis
 cpp_indent_within_parentheses = indent
 cpp_indent_preserve_within_parentheses = false
 cpp_indent_case_contents = true
-cpp_indent_case_labels = false
-cpp_indent_case_contents_when_block = false
+cpp_indent_case_labels = true
+cpp_indent_case_contents_when_block = true
 cpp_indent_lambda_braces_when_parameter = true
 cpp_indent_goto_labels = one_left
 cpp_indent_preprocessor = leftmost_column
 cpp_indent_access_specifiers = false
 cpp_indent_namespace_contents = true
-cpp_indent_preserve_comments = false
+cpp_indent_preserve_comments = true
 cpp_new_line_before_open_brace_namespace = ignore
 cpp_new_line_before_open_brace_type = ignore
 cpp_new_line_before_open_brace_function = ignore
 cpp_new_line_before_open_brace_block = ignore
 cpp_new_line_before_open_brace_lambda = ignore
-cpp_new_line_scope_braces_on_separate_lines = false
-cpp_new_line_close_brace_same_line_empty_type = false
-cpp_new_line_close_brace_same_line_empty_function = false
+cpp_new_line_scope_braces_on_separate_lines = true
+cpp_new_line_close_brace_same_line_empty_type = true
+cpp_new_line_close_brace_same_line_empty_function = true
 cpp_new_line_before_catch = true
 cpp_new_line_before_else = true
 cpp_new_line_before_while_in_do_while = false
@@ -416,7 +423,7 @@ cpp_space_after_semicolon = true
 cpp_space_remove_around_unary_operator = true
 cpp_space_around_binary_operator = insert
 cpp_space_around_assignment_operator = insert
-cpp_space_pointer_reference_alignment = left
+cpp_space_pointer_reference_alignment = right
 cpp_space_around_ternary_operator = insert
 cpp_use_unreal_engine_macro_formatting = true
 cpp_wrap_preserve_blocks = one_liners

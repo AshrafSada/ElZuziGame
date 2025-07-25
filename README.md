@@ -230,3 +230,140 @@ classDiagram
         }
 
 ```
+
+### Linking to SFML Framework
+
+SFML is a simple, fast, cross-platform and object-oriented multimedia API. It provides access to windowing, graphics, audio and network, and used mainly for 2D graphics.
+
+Before using SFML, we must create simple C++ console app, and run it once in debug 64, and once in release 64, so that the debug and release output directories are created before we can adjust project settings, and add SFML DLLs.
+
+Create a c++ file and call it `ZuziGame.cpp` then add this simple console code will be sufficient to compile our project initially before setting up SFML:
+
+```c++
+#include <iostream>
+
+int main() {
+    std::cout << "App initialized" << std::endl;
+    return 0;
+}
+```
+
+To add SFML to our game, we need to:
+
+ 1. Install SFML version 3, unzip to a folder (preferably on the same drive your game development is).
+ 2. In ZUZIGAME project properties: adjust properties for Select (All Configurations, and all Platforms) to:
+
+    1. C++ Language tab, set C++ language Standard to ISO C++17 Standard.
+    2. C++ General tab, add to Additional Include Directories, the folder path to SFML include (absolute path).
+    3. Linker General tab, add to Additional Library Directories, the folder path to SFML lib (absolute path).
+ 3. In ZUZIGAME project properties: Select (**Debug**, and all Platforms) to: Linker Input tab, add to Additional Dependencies SFML required libraries `sfml-audio-d.lib;sfml-graphics-d.lib;sfml-network-d.lib;sfml-system-d.lib;sfml-window-d.lib;`
+ 4. In ZUZIGAME project properties: Select (**Release**, and all Platforms) to: Linker Input tab, add to Additional Dependencies SFML required libraries `sfml-audio.lib;sfml-graphics.lib;sfml-network.lib;sfml-system.lib;sfml-window.lib;`
+ 5. Copy all the DLLs **with** `-d` from SFML `bin` folder to Game project folder x64 Debug.
+ 6. Copy all the DLLs **without** `-d` from SFML `bin` folder to Game project folder x64 Release.
+
+ The project folder should look something like this after adding the required DLLs:
+
+ ![DebugAndRelease](./Diagrams/DebugAndRelease.png)
+
+After finishing all the steps above, we must test if SFML is working properly by replacing the test code in `ZuziGame.cpp` to test that SFML is working:
+
+```c++
+#include <iostream>
+#include <SFML/Window.hpp>
+#include <SFML/Graphics.hpp>
+
+using namespace std;
+int main(int argc, char* argv[]) {
+    // create game window
+    const int winWidth = 1400u;
+    const int winHeight = 1050u;
+    sf::RenderWindow window(sf::VideoMode({ winWidth,winHeight }), "Zuzi Game running!");
+    // set window frame limit: recommended(60 - 144)
+    window.setFramerateLimit(60);
+
+    // draw shape circle with default color white
+    const float circleRadius = 50.f;
+    sf::CircleShape circle(circleRadius);
+
+    // set position top, left (x,y)
+    sf::Vector2f circlePos;
+    circlePos.x = (float)winWidth / 2;
+    circlePos.y = (float)winHeight / 2;
+    circle.setPosition(circlePos);
+    float circleMoveSpeed = 1.0f;
+
+    // draw rectangular shape
+    sf::Vector2f rectPos;
+    rectPos.x = 33.f;
+    rectPos.y = 33.f;
+    sf::Vector2f rectSize;
+    rectSize.x = 100.f;
+    rectSize.y = 100.f;
+
+    sf::RectangleShape rect;
+    rect.setSize(rectSize);
+    rect.setPosition(rectPos);
+
+    // fill with custom rgb color
+    int r, g, b, a;
+    r = 197u;
+    g = 18u;
+    b = 33u;
+    a = 255u;
+    rect.setFillColor(sf::Color(r, g, b, a));
+
+    // load custom font from file
+    sf::Font techFont;
+    if (!techFont.openFromFile("..\\Fonts\\tech.ttf")) {
+        // error message
+        std::cout << "Font not found" << std::endl;
+        exit(-1);
+    }
+
+    // use text to test custom font
+    sf::Text text(techFont, "sample text", 24u);
+
+    // position the text
+    sf::Vector2f txtPos;
+    txtPos.x = 33.f;
+    txtPos.y = winHeight - (float)text.getCharacterSize() - 33.f;
+    text.setPosition(txtPos);
+
+    // handling window loop
+    while (window.isOpen())
+    {
+        // handling window events
+        while (const std::optional event = window.pollEvent())
+        {
+            // handling closed event
+            if (event->is<sf::Event::Closed>()) {
+                window.close();
+            }
+            else if (const auto* keyPressed = event->getIf<sf::Event::KeyPressed>()) {
+                // handling escape key press event
+                if (keyPressed->scancode == sf::Keyboard::Scancode::Escape) {
+                    window.close();
+                }
+            }
+            else if (const auto* resized = event->getIf<sf::Event::Resized>()) {
+                std::cout << "new width: " << resized->size.x << std::endl;
+                std::cout << "new height: " << resized->size.y << std::endl;
+            }
+        }
+
+        // move the circle
+        sf::Vector2f cmPos;
+        cmPos.x -= circleMoveSpeed;
+        cmPos.y -= circleMoveSpeed;
+        circle.move(cmPos);
+
+        window.clear();
+        window.draw(circle);
+        window.draw(text);
+        window.draw(rect);
+        window.display();
+    }
+}
+```
+
+If the above code compiles and runs, then all is good, else check the steps in this section above, where may be a step was missed.
