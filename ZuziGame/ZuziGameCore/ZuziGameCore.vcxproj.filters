@@ -32,5 +32,14 @@
     <ClInclude Include="GameAnimation.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="GameResources.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GameEntity.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GameSyatem.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

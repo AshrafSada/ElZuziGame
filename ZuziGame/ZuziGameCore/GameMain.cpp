@@ -1,12 +1,16 @@
-#include "GameEngine.h"
+#include "GameEntity.h"
+#include "GameResources.h"
+#include "GameSyatem.h"
 #include <iostream>
 #include <SDL3/SDL.h>
 #include <SDL3_image/SDL_image.h>
 
-static void CleanUpResources( SDL_Window *sdlWindow, SDL_Renderer *sdlRenderer );
+// function declarations
 static bool InitializeSDL( );
 static SDL_Window *CreateSDLWindow( int width, int height, SDL_WindowFlags winFlags );
 static SDL_Renderer *CreateSDLRenderer( SDL_Window *sdlWin, const char *driverName, int logicalWidth, int logicalHeight );
+static void CleanUpResources( SDL_Window *sdlWindow, SDL_Renderer *sdlRenderer );
+static void DrawGameEntityObject( SDL_Renderer *sdlRenderer, GameSystem &gameSystem, GameEntity &gameEntityObj, float deltaTime );
 
 // NOTE: required by SDL  argc: argument count, argv: argument value
 int main( int argc, char *argv[] )
@@ -23,11 +27,6 @@ int main( int argc, char *argv[] )
     int clrAlpha = 255;
     // renderer presentation surface
     int logWidth = 960, logHeight = 480;
-    // idle texture size
-    float idleTexWidth = 32.f, idleTexHeight = 32.f;
-    // idle text position on the renderer surface
-    float idleTexPosX = (float)logWidth / 2;
-    const float idleTexPosY = (float)logHeight - idleTexHeight;
 
     // create SDL window
     SDL_Window *sWin = CreateSDLWindow( gameWinWidth, gameWinHeight, SDL_WINDOW_RESIZABLE );
@@ -35,24 +34,29 @@ int main( int argc, char *argv[] )
     // create SDL renderer
     SDL_Renderer *sRenderer = CreateSDLRenderer( sWin, NULL, logWidth, logHeight );
 
-    // loading game assets using SDL Image Texture
-    auto spriteTexPath = ".\\.\\GameAssets\\idle.png";
-    SDL_Texture *idleTex = IMG_LoadTexture( sRenderer, spriteTexPath );
+    // instance of game resources
+    GameResources gRes;
+    gRes.loadResources( sRenderer );
+
     // set scale mode to nearest neighbor
-    auto isScaledIdleTex = SDL_SetTextureScaleMode( idleTex, SDL_SCALEMODE_NEAREST );
-    // control sprite per pixel (source float rect)
-    SDL_FRect idleSrc{ 0, 0, idleTexWidth, idleTexHeight };
+    auto isScaledIdleTex = SDL_SetTextureScaleMode( gRes.idleTex, SDL_SCALEMODE_NEAREST );
 
     // set sprite movement (per second, not per frame)
-    bool flipHor = false;
-    float difficultyLevel = 0.75f; // 0.5 = easy
     Uint64 startTicks = SDL_GetTicks( );
-    float playerPosX = 0;
-    float playerSpeedRate = 0.005f;
-    float playerMoveRate = 0;
 
     // get keyboard state once (during window life-time)
     const bool *keys = SDL_GetKeyboardState( NULL );
+
+    // instance of game system
+    GameSystem gameSystem{ };
+
+    // game entity player object
+    GameEntity player;
+    player.m_entityType = GameEntity::EntityType::player;
+    player.m_texture = gRes.idleTex;
+    player.m_animations = gRes.playerAnimations;
+    player.m_currentAnimation = gRes.ANIM_PLAYER_IDLE;
+    gameSystem.m_gameLayers[GameSystem::LAYER_IDX_CHARACTERS].push_back( player );
 
     // create window loop
     bool isGameRunning = true;
@@ -87,28 +91,33 @@ int main( int argc, char *argv[] )
         }
 
         // handle key pressed events for ASDW
-        if (keys[SDL_SCANCODE_A])
-        {
-            flipHor = true;
-            playerMoveRate -= (playerSpeedRate * deltaTicks) * difficultyLevel;
-        }
-        if (keys[SDL_SCANCODE_D])
-        {
-            flipHor = false;
-            playerMoveRate += (playerSpeedRate * deltaTicks) * difficultyLevel;
-        }
-        playerPosX = playerMoveRate;
 
-        // using the renderer (RGB_A)
-        SDL_SetRenderDrawColor( sRenderer, clrRed, clrGreen, clrBlue, clrAlpha );
-        // clear the renderer
-        SDL_RenderClear( sRenderer );
-        // control sprite per pixel (destination float rect)
-        SDL_FRect idleDst{ playerPosX, idleTexPosY, idleTexWidth, idleTexHeight };
         if (isScaledIdleTex)
         {
-            // flip texture based on movement direction
-            SDL_RenderTextureRotated( sRenderer, idleTex, &idleSrc, &idleDst, 0, 0, flipHor ? SDL_FLIP_HORIZONTAL : SDL_FLIP_NONE );
+            // update all game entity objects
+            for (auto layer : gameSystem.m_gameLayers)
+            {
+                for (GameEntity obj : layer)
+                {
+                    if (obj.m_currentAnimation != -1)
+                    {
+                        obj.m_animations[obj.m_currentAnimation].stepAnimation( deltaTicks );
+                    }
+                }
+            }
+            // using the renderer (RGB_A)
+            SDL_SetRenderDrawColor( sRenderer, clrRed, clrGreen, clrBlue, clrAlpha );
+            // clear the renderer
+            SDL_RenderClear( sRenderer );
+
+            // draw all game entity objects
+            for (auto layer : gameSystem.m_gameLayers)
+            {
+                for (GameEntity obj : layer)
+                {
+                    DrawGameEntityObject( sRenderer, gameSystem, obj, deltaTicks );
+                }
+            }
         }
 
         // built-in swap-chain will (flip) back buffer to the front buffer and present renderer with updated changes
@@ -116,16 +125,11 @@ int main( int argc, char *argv[] )
     }
 
     // texture destroyed before exit, separated form cleanup resources function to enable extending texture functional within game program
-    SDL_DestroyTexture( idleTex );
+    gRes.unLoadResources( );
     return 0;
 }
 
 // implement in order of allocation (FIFO)
-static void CleanUpResources( SDL_Window *sdlWindow, SDL_Renderer *sdlRenderer )
-{
-    SDL_DestroyRenderer( sdlRenderer );
-    SDL_DestroyWindow( sdlWindow );
-}
 
 static bool InitializeSDL( )
 {
@@ -172,4 +176,30 @@ static SDL_Renderer *CreateSDLRenderer( SDL_Window *sdlWin, const char *driverNa
         SDL_RendererLogicalPresentation::SDL_LOGICAL_PRESENTATION_LETTERBOX );
 
     return sRenderer;
+}
+
+static void CleanUpResources( SDL_Window *sdlWindow, SDL_Renderer *sdlRenderer )
+{
+    SDL_DestroyRenderer( sdlRenderer );
+    SDL_DestroyWindow( sdlWindow );
+}
+static void DrawGameEntityObject( SDL_Renderer *sdlRenderer, GameSystem &gameSystem, GameEntity &entityObject, float deltaTime )
+{
+    // sprite texture size
+    const float spriteSize = 32.f;
+
+    // updated src Pos X based on entity object current animation
+    float srcX = entityObject.m_currentAnimation != -1
+        ?
+        entityObject.m_animations[entityObject.m_currentAnimation].getCurrentFrameToDisplay( ) * spriteSize
+        : 0.0f;
+
+    // control sprite per pixel (source float rect)
+    SDL_FRect idleSrc{ srcX, 0, spriteSize, spriteSize };
+    // control sprite per pixel (destination float rect)
+    SDL_FRect idleDst{ entityObject.m_position.x, entityObject.m_position.y, spriteSize, spriteSize };
+    // flip texture based on movement direction
+    SDL_FlipMode flipMode = entityObject.m_direction == -1 ? SDL_FLIP_HORIZONTAL : SDL_FLIP_NONE;
+    // render texture
+    SDL_RenderTextureRotated( sdlRenderer, entityObject.m_texture, &idleSrc, &idleDst, 0, nullptr, flipMode );
 }
