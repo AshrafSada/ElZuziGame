@@ -1,32 +1,31 @@
 #pragma once
 
-#include "GameAnimation.h"
 #include <glm/glm.hpp>
+#include <iostream>
 #include <SDL3/SDL.h>
+#include "GameAnimation.h"
 
-struct GameEntity
+class GameEntity
 {
 public:
     enum EntityType
     {
         player, level, enemy
     };
+public:
+    GameEntity( );
 
 public:
-    GameEntity( )
-    {
-        m_entityType = EntityType::level;
-        m_direction = 1; // 1 right -1 left
-        m_position = m_velocity = m_acceleration = glm::vec2( 0 );
-        m_currentAnimation = -1; // -1 no animation
-        m_texture = nullptr; // nullPtr no texture
-    }
-
-public:
+    // entity type initialized to level in constructor
     EntityType m_entityType;
+    // vec2 type coordinates
     glm::vec2 m_position, m_velocity, m_acceleration;
+    // -1 left 1 right on x axis
     float m_direction;
+    // auto initialized here
     std::vector<GameAnimation> m_animations;
+    // initialize to -1 for no animation in constructor
     int m_currentAnimation;
+    // initialize to nullptr in constructor
     SDL_Texture *m_texture;
 };

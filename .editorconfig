@@ -438,6 +438,6 @@ cpp_include_cleanup_optimize_unused_error_tag_type = suggestion
 cpp_include_cleanup_sort_after_edits = false
 cpp_sort_includes_error_tag_type = none
 cpp_sort_includes_priority_case_sensitive = false
-cpp_sort_includes_priority_style = quoted
+cpp_sort_includes_priority_style = angle_brackets
 cpp_includes_style = default
 cpp_includes_use_forward_slash = true

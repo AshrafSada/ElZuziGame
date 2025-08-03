@@ -152,7 +152,10 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="GameAnimation.cpp" />
+    <ClCompile Include="GameEntity.cpp" />
     <ClCompile Include="GameMain.cpp" />
+    <ClCompile Include="GameResources.cpp" />
+    <ClCompile Include="GameSystem.cpp" />
     <ClCompile Include="GameTimer.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -166,9 +169,9 @@
   <ItemGroup>
     <ClInclude Include="GameAnimation.h" />
     <ClInclude Include="GameEntity.h" />
-    <ClInclude Include="GameSyatem.h" />
-    <ClInclude Include="GameTimer.h" />
     <ClInclude Include="GameResources.h" />
+    <ClInclude Include="GameSystem.h" />
+    <ClInclude Include="GameTimer.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

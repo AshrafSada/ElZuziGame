@@ -7,12 +7,9 @@ GameTimer::GameTimer( float timeSpan )
     m_isTimeOut( false ) // reset at start
 { }
 
-GameTimer::~GameTimer( )
-{ }
-
 void GameTimer::stepGameTime( float deltaTime )
 {
-    m_elapsedTime += deltaTime;
+    m_elapsedTime = deltaTime;
     if (m_elapsedTime >= m_gameTimeSpan)
     {
         m_elapsedTime -= m_gameTimeSpan;

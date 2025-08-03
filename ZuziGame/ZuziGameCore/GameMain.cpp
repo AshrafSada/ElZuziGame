@@ -1,9 +1,9 @@
-#include "GameEntity.h"
-#include "GameResources.h"
-#include "GameSyatem.h"
 #include <iostream>
 #include <SDL3/SDL.h>
 #include <SDL3_image/SDL_image.h>
+#include "GameEntity.h"
+#include "GameResources.h"
+#include "GameSystem.h"
 
 // function declarations
 static bool InitializeSDL( );
@@ -18,15 +18,15 @@ int main( int argc, char *argv[] )
     InitializeSDL( );
 
     // win width
-    int gameWinWidth = 1280;
-    int gameWinHeight = 960;
+    int gameWinWidth = 1024;
+    int gameWinHeight = 780;
     // surface color
     int clrRed = 30;
     int clrGreen = 60;
     int clrBlue = 56;
     int clrAlpha = 255;
     // renderer presentation surface
-    int logWidth = 960, logHeight = 480;
+    int logWidth = 960, logHeight = 320;
 
     // create SDL window
     SDL_Window *sWin = CreateSDLWindow( gameWinWidth, gameWinHeight, SDL_WINDOW_RESIZABLE );
@@ -56,7 +56,7 @@ int main( int argc, char *argv[] )
     player.m_texture = gRes.idleTex;
     player.m_animations = gRes.playerAnimations;
     player.m_currentAnimation = gRes.ANIM_PLAYER_IDLE;
-    gameSystem.m_gameLayers[GameSystem::LAYER_IDX_CHARACTERS].push_back( player );
+    gameSystem.m_gameEntityLayers[GameSystem::LAYER_IDX_CHARACTERS].push_back( player );
 
     // create window loop
     bool isGameRunning = true;
@@ -90,12 +90,10 @@ int main( int argc, char *argv[] )
             }
         }
 
-        // handle key pressed events for ASDW
-
         if (isScaledIdleTex)
         {
             // update all game entity objects
-            for (auto layer : gameSystem.m_gameLayers)
+            for (auto layer : gameSystem.m_gameEntityLayers)
             {
                 for (GameEntity obj : layer)
                 {
@@ -111,7 +109,7 @@ int main( int argc, char *argv[] )
             SDL_RenderClear( sRenderer );
 
             // draw all game entity objects
-            for (auto layer : gameSystem.m_gameLayers)
+            for (auto layer : gameSystem.m_gameEntityLayers)
             {
                 for (GameEntity obj : layer)
                 {
