@@ -7,9 +7,37 @@
 
 enum GameEntityType
 {
-    player = 0,
-    level = 1,
-    enemy = 2
+    Player = 0,
+    Level = 1,
+    Enemy = 2
+};
+
+enum PlayerState
+{
+    Idle, Running, Jumping
+};
+
+struct LevelEntity
+{ };
+
+struct EnemyEntity
+{ };
+
+struct PlayerEntity
+{
+public:
+    PlayerState m_playerState;
+    PlayerEntity( )
+    {
+        m_playerState = PlayerState::Idle;
+    }
+};
+
+union EntityUnion
+{
+    PlayerEntity um_player;
+    LevelEntity um_level;
+    EnemyEntity um_enemy;
 };
 
 class GameEntity
@@ -22,6 +50,8 @@ public:
     glm::vec2 m_position, m_velocity, m_acceleration;
     // entity type
     GameEntityType m_entityType;
+    // Entity union
+    EntityUnion u_entityUnion;
     // entity direction on X axis, -1=left, 1=right
     float m_direction;
     // game animations vector

@@ -10,4 +10,5 @@ public:
     int clrRed, clrGreen, clrBlue, clrAlpha;
     SDL_Window *window;
     SDL_Renderer *renderer;
+    const bool *keysPressed;
 };

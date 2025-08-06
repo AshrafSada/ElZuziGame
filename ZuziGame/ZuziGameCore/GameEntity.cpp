@@ -7,6 +7,7 @@ GameEntity::GameEntity( )
     m_velocity( 0 ),
     m_acceleration( 0 ),
     m_currentAnimation( -1 ),
-    m_entityType( GameEntityType::level ),
-    m_textureToDraw( nullptr )
+    m_entityType( GameEntityType::Level ),
+    m_textureToDraw( nullptr ),
+    u_entityUnion{ .um_level = LevelEntity( ) }
 { }

@@ -70,13 +70,31 @@
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <IncludePath>$(IncludePath)</IncludePath>
+    <LibraryPath>$(LibraryPath)</LibraryPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <IncludePath>$(IncludePath)</IncludePath>
+    <LibraryPath>$(LibraryPath)</LibraryPath>
+    <LinkIncremental>true</LinkIncremental>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <IncludePath>$(IncludePath)</IncludePath>
+    <LibraryPath>$(LibraryPath)</LibraryPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <IncludePath>$(IncludePath)</IncludePath>
+    <LibraryPath>$(LibraryPath)</LibraryPath>
+    <LinkIncremental>true</LinkIncremental>
+  </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>E:\GitHub\Source\Repos\GameDev\ExternalLibraries\GLM-1.0.1-VC\include;E:\GitHub\Source\Repos\SDL\include;E:\GitHub\Source\Repos\SDL_image\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(MediaLibraries)\ReleasedVersions\SDL2_mixer-2.8.1\include\;$(MediaLibraries)\SDL\include\;$(MediaLibraries)\SDL_image\include\;$(MediaLibraries)\glm\GLM-1.0.1-VC\include\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp20</LanguageStandard>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
@@ -84,9 +102,9 @@
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>E:\GitHub\Source\Repos\GameDev\ExternalLibraries\GLM-1.0.1-VC\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>%(AdditionalDependencies)</AdditionalDependencies>
-      <ShowProgress>LinkVerboseLib</ShowProgress>
+      <AdditionalLibraryDirectories>$(MediaLibraries)\ReleasedVersions\SDL2_mixer-2.8.1\lib\x64\;$(MediaLibraries)\glm\GLM-1.0.1-VC\lib\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>%(AdditionalDependencies);glm.lib;SDL2_mixer.lib;</AdditionalDependencies>
+      <ShowProgress>LinkVerbose</ShowProgress>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -97,7 +115,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>E:\GitHub\Source\Repos\GameDev\ExternalLibraries\GLM-1.0.1-VC\include;E:\GitHub\Source\Repos\SDL\include;E:\GitHub\Source\Repos\SDL_image\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(MediaLibraries)\ReleasedVersions\SDL2_mixer-2.8.1\include\;$(MediaLibraries)\SDL\include\;$(MediaLibraries)\SDL_image\include\;$(MediaLibraries)\glm\GLM-1.0.1-VC\include\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp20</LanguageStandard>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
@@ -105,9 +123,9 @@
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>E:\GitHub\Source\Repos\GameDev\ExternalLibraries\GLM-1.0.1-VC\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>%(AdditionalDependencies)</AdditionalDependencies>
-      <ShowProgress>LinkVerboseLib</ShowProgress>
+      <AdditionalLibraryDirectories>$(MediaLibraries)\ReleasedVersions\SDL2_mixer-2.8.1\lib\x64\;$(MediaLibraries)\glm\GLM-1.0.1-VC\lib\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>%(AdditionalDependencies);glm.lib;SDL2_mixer.lib;</AdditionalDependencies>
+      <ShowProgress>LinkVerbose</ShowProgress>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -116,7 +134,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>E:\GitHub\Source\Repos\GameDev\ExternalLibraries\GLM-1.0.1-VC\include;E:\GitHub\Source\Repos\SDL\include;E:\GitHub\Source\Repos\SDL_image\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(MediaLibraries)\ReleasedVersions\SDL2_mixer-2.8.1\include\;$(MediaLibraries)\SDL\include\;$(MediaLibraries)\SDL_image\include\;$(MediaLibraries)\glm\GLM-1.0.1-VC\include\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp20</LanguageStandard>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
@@ -124,9 +142,9 @@
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>E:\GitHub\Source\Repos\GameDev\ExternalLibraries\GLM-1.0.1-VC\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>%(AdditionalDependencies)</AdditionalDependencies>
-      <ShowProgress>LinkVerboseLib</ShowProgress>
+      <AdditionalLibraryDirectories>$(MediaLibraries)\ReleasedVersions\SDL2_mixer-2.8.1\lib\x64\;$(MediaLibraries)\glm\GLM-1.0.1-VC\lib\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>%(AdditionalDependencies);glm.lib;SDL2_mixer.lib;</AdditionalDependencies>
+      <ShowProgress>LinkVerbose</ShowProgress>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -137,7 +155,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>E:\GitHub\Source\Repos\GameDev\ExternalLibraries\GLM-1.0.1-VC\include;E:\GitHub\Source\Repos\SDL\include;E:\GitHub\Source\Repos\SDL_image\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(MediaLibraries)\ReleasedVersions\SDL2_mixer-2.8.1\include\;$(MediaLibraries)\SDL\include\;$(MediaLibraries)\SDL_image\include\;$(MediaLibraries)\glm\GLM-1.0.1-VC\include\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp20</LanguageStandard>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
@@ -145,13 +163,14 @@
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>E:\GitHub\Source\Repos\GameDev\ExternalLibraries\GLM-1.0.1-VC\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>%(AdditionalDependencies)</AdditionalDependencies>
-      <ShowProgress>LinkVerboseLib</ShowProgress>
+      <AdditionalLibraryDirectories>$(MediaLibraries)\ReleasedVersions\SDL2_mixer-2.8.1\lib\x64\;$(MediaLibraries)\glm\GLM-1.0.1-VC\lib\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>%(AdditionalDependencies);glm.lib;SDL2_mixer.lib;</AdditionalDependencies>
+      <ShowProgress>LinkVerbose</ShowProgress>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="GameAnimation.cpp" />
+    <ClCompile Include="GameEngine.cpp" />
     <ClCompile Include="GameEntity.cpp" />
     <ClCompile Include="GameMain.cpp" />
     <ClCompile Include="GameResources.cpp" />
@@ -159,6 +178,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameAnimation.h" />
+    <ClInclude Include="GameEngine.h" />
     <ClInclude Include="GameEntity.h" />
     <ClInclude Include="GameResources.h" />
     <ClInclude Include="GameSDLState.hpp" />
@@ -166,10 +186,10 @@
     <ClInclude Include="GameTimer.h" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\..\SDL\VisualC\SDL\SDL.vcxproj">
+    <ProjectReference Include="..\..\..\..\MediaExternalLibraries\SDL\VisualC\SDL\SDL.vcxproj">
       <Project>{81ce8daf-ebb2-4761-8e45-b71abcca8c68}</Project>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\..\SDL_image\VisualC\SDL_image.vcxproj">
+    <ProjectReference Include="..\..\..\..\MediaExternalLibraries\SDL_image\VisualC\SDL_image.vcxproj">
       <Project>{2bd5534e-00e2-4bea-ac96-d9a92ea24696}</Project>
     </ProjectReference>
   </ItemGroup>
