@@ -4,18 +4,22 @@
 #include <vector>
 #include "GameEntity.h"
 
-class GameSystem
+struct GameState
 {
 public:
-    GameSystem( );
-
+    GameState( )
+    {
+        m_playerIndex = 0;
+    }
 public:
+    // indices of level layer
     static const size_t LAYER_IDX_LEVEL = 0;
+    // indices of characters layer
     static const size_t LAYER_IDX_CHARACTERS = 1;
 
 public:
-    // game players array initialized to 2 game entities
+    // layers array of vector game entity and size 2
     std::array<std::vector<GameEntity>, 2> m_gameEntityLayers;
-    // player index initialize to 0 for player 1 in constructor
+    // player (game entity) index
     int m_playerIndex;
 };

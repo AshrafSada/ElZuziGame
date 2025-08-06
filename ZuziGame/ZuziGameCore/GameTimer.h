@@ -4,7 +4,8 @@
 class GameTimer
 {
 public:
-    GameTimer( float timeSpan );
+    GameTimer( ) = default;
+    GameTimer( float timeSpanLength );
 
 public:
     void stepGameTime( float deltaTime );
@@ -14,9 +15,9 @@ public:
     // getters
     bool getIsTimeout( ) const;
     float getElapsedTime( ) const;
-    float getGameTimeSpan( ) const;
+    float getTimeSpanLength( ) const;
 
 private:
-    float m_gameTimeSpan, m_elapsedTime;
+    float m_timeSpanLength, m_elapsedTime;
     bool m_isTimeOut;
 };

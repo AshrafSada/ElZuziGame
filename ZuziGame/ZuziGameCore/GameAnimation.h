@@ -1,24 +1,26 @@
 #pragma once
-
 #include "GameTimer.h"
 
 class GameAnimation
 {
 public:
-    // default constructor
+    // constructor
     GameAnimation( );
-    // args constructor
-    GameAnimation( int animatedFrameCount, float timeSpan );
+    // constructor args: animated frame count, time span length
+    GameAnimation( int animateFrameCount, float timeSpanLength );
 
 public:
     void stepAnimation( float deltaTime );
 
 public:
-    // getters
-    float getTimeSpan( ) const;
-    float getCurrentFrameToDisplay( ) const;
+    // time span length getter
+    float getTimeSpanLength( ) const;
+    // current animate frame count getter
+    int getCurrentFrameCount( ) const;
 
 private:
-    GameTimer m_gameTimer;
-    int m_animatedFrameCount;
+    // game timer instance member
+    GameTimer m_gameTimer{ };
+    // animate frame count member
+    int m_animateFrameCount;
 };

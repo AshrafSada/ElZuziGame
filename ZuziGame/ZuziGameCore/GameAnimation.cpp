@@ -1,16 +1,15 @@
-#include <iostream>
 #include "GameAnimation.h"
 
 GameAnimation::GameAnimation( )
     :
     m_gameTimer( 0 ),
-    m_animatedFrameCount( 0 )
+    m_animateFrameCount( 0 )
 { }
 
-GameAnimation::GameAnimation( int animatedFrameCount, float timeSpan )
+GameAnimation::GameAnimation( int animateFrameCount, float timeSpanLength )
     :
-    m_animatedFrameCount( animatedFrameCount ),
-    m_gameTimer( timeSpan )
+    m_animateFrameCount( animateFrameCount ),
+    m_gameTimer( timeSpanLength )
 { }
 
 void GameAnimation::stepAnimation( float deltaTime )
@@ -18,15 +17,13 @@ void GameAnimation::stepAnimation( float deltaTime )
     m_gameTimer.stepGameTime( deltaTime );
 }
 
-float GameAnimation::getTimeSpan( ) const
+float GameAnimation::getTimeSpanLength( ) const
 {
-    return m_gameTimer.getGameTimeSpan( );
+    return 0.0f;
 }
 
-float GameAnimation::getCurrentFrameToDisplay( ) const
+int GameAnimation::getCurrentFrameCount( ) const
 {
-    float elapsedTime = m_gameTimer.getElapsedTime( );
-    float timeSpan = m_gameTimer.getGameTimeSpan( );
-    float currentFrames = elapsedTime / timeSpan * (float)m_animatedFrameCount;
-    return currentFrames;
+    int currentFrameCount = static_cast<int>(m_gameTimer.getElapsedTime( ) / m_gameTimer.getTimeSpanLength( ) * m_animateFrameCount);
+    return currentFrameCount;
 }

@@ -155,8 +155,15 @@
     <ClCompile Include="GameEntity.cpp" />
     <ClCompile Include="GameMain.cpp" />
     <ClCompile Include="GameResources.cpp" />
-    <ClCompile Include="GameSystem.cpp" />
     <ClCompile Include="GameTimer.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="GameAnimation.h" />
+    <ClInclude Include="GameEntity.h" />
+    <ClInclude Include="GameResources.h" />
+    <ClInclude Include="GameSDLState.hpp" />
+    <ClInclude Include="GameState.hpp" />
+    <ClInclude Include="GameTimer.h" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\..\SDL\VisualC\SDL\SDL.vcxproj">
@@ -165,13 +172,6 @@
     <ProjectReference Include="..\..\..\..\SDL_image\VisualC\SDL_image.vcxproj">
       <Project>{2bd5534e-00e2-4bea-ac96-d9a92ea24696}</Project>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="GameAnimation.h" />
-    <ClInclude Include="GameEntity.h" />
-    <ClInclude Include="GameResources.h" />
-    <ClInclude Include="GameSystem.h" />
-    <ClInclude Include="GameTimer.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

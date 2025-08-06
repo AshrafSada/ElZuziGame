@@ -5,20 +5,23 @@
 #include <string>
 #include <vector>
 #include "GameAnimation.h"
+#include "GameSDLState.hpp"
 
 class GameResources
 {
 public:
-    GameResources( );
-
-public:
-    SDL_Texture *loadTextureFromFile( SDL_Renderer *renderer, const std::string &filePath );
-    void loadResources( SDL_Renderer *renderer );
-    void unLoadResources( );
-
-public:
+    // player idl index
     const int ANIM_PLAYER_IDLE = 0;
-    std::vector<GameAnimation> playerAnimations;
-    std::vector<SDL_Texture *> textures;
-    SDL_Texture *idleTex{ };
+
+public:
+    // load resources with SDL state
+    void loadResources( GameSDLState state );
+    void unLoadResources( );
+    // load Texture from file, and return texture
+    SDL_Texture *loadTexture( GameSDLState &state, const std::string &filePath );
+public:
+    // player game animation vector
+    std::vector<GameAnimation> m_playerAnimations;
+    // SDL Textures vector
+    std::vector<SDL_Texture *> m_textures;
 };

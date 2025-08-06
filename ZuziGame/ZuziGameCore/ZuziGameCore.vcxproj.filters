@@ -24,13 +24,10 @@
     <ClCompile Include="GameAnimation.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="GameEntity.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="GameResources.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="GameSystem.cpp">
+    <ClCompile Include="GameEntity.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -41,13 +38,16 @@
     <ClInclude Include="GameAnimation.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="GameEntity.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="GameResources.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="GameSystem.h">
+    <ClInclude Include="GameSDLState.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GameEntity.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GameState.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
