@@ -17,6 +17,8 @@ public:
     float getTimeSpanLength( ) const;
     // current animate frame count getter
     int getCurrentFrameCount( ) const;
+    // is animation done based on timer
+    bool getIsDoneAnimate( ) const;
 
 private:
     // game timer instance member

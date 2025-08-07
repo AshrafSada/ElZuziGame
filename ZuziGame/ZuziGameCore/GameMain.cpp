@@ -6,9 +6,6 @@ int main( int argc, char *argv[] )
     // instance of Game Engine
     GameEngine gEngine{ };
 
-    // IMPORTANT: get hardware info, don't NOT used in production
-    gEngine.getHardwareInfo( );
-
     // SDL initialization
     gEngine.InitializeSDL( );
 
@@ -44,6 +41,9 @@ int main( int argc, char *argv[] )
     GameEntity player{ };
     player.m_entityType = GameEntityType::Player;
     player.m_textureToDraw = idleTex;
+    // set player max speed
+    player.m_acceleration = glm::vec2( 300, 0 );
+    player.m_maxSpeedX = 100;
     // assign a copy of animations to player
     player.m_animations = gRes.m_playerAnimations;
     player.m_currentAnimation = gRes.ANIM_PLAYER_IDLE;
@@ -90,11 +90,12 @@ int main( int argc, char *argv[] )
         // update sprite animation
         for (auto layers : gState.m_gameEntityLayers)
         {
-            for (GameEntity &entity : layers)
+            for (GameEntity &entityObj : layers)
             {
-                if (entity.m_currentAnimation != -1)
+                gEngine.UpdateGameEntity( gRes, sdlState, gState, entityObj, deltaTicks );
+                if (entityObj.m_currentAnimation != -1)
                 {
-                    entity.m_animations[entity.m_currentAnimation].stepAnimation( deltaTicks );
+                    entityObj.m_animations[entityObj.m_currentAnimation].stepAnimation( deltaTicks );
                 }
             }
         }
@@ -107,9 +108,9 @@ int main( int argc, char *argv[] )
         // draw the sprite
         for (auto layers : gState.m_gameEntityLayers)
         {
-            for (GameEntity &entity : layers)
+            for (GameEntity &entityObj : layers)
             {
-                gEngine.DrawGameEntity( sdlState, gState, entity, deltaTicks );
+                gEngine.DrawGameEntity( sdlState, gState, entityObj, deltaTicks );
             }
         }
 

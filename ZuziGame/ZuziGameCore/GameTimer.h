@@ -4,11 +4,11 @@
 class GameTimer
 {
 public:
-    GameTimer( ) = default;
+    GameTimer( );
     GameTimer( float timeSpanLength );
 
 public:
-    void stepGameTime( float deltaTime );
+    bool stepGameTime( float deltaTime );
     void resetGameTimer( );
 
 public:
