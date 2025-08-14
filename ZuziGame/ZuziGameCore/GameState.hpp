@@ -3,14 +3,16 @@
 #include <array>
 #include <vector>
 #include "GameEntity.h"
+#include "GameSDLState.hpp"
 
 struct GameState
 {
 public:
-    GameState( )
+    GameState( const GameSDLState &sdlState )
     {
-        m_playerIndex = 0;
+        m_playerIndex = -1;
     }
+
 public:
     // indices of level layer
     static const size_t LAYER_IDX_LEVEL = 0;

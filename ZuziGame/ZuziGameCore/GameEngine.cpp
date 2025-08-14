@@ -1,8 +1,5 @@
 #include "GameEngine.h"
 
-GameEngine::GameEngine( )
-{ }
-
 bool GameEngine::InitializeSDL( )
 {
     std::cout << "Game running ..." << std::endl;
@@ -58,15 +55,15 @@ void GameEngine::CleanUp( GameSDLState &sdlState )
 }
 
 // Draw game entity object
-void GameEngine::DrawGameEntity( GameSDLState &sdlState, GameState &gameState, GameEntity &entityObject, float deltaTime )
+void GameEngine::DrawGameEntity( GameSDLState &sdlState, GameState &gameState, GameEntity &entityObject, Uint64 deltaTime )
 {
     // default sprite size
-    const float spriteSize = 32.f;
+    const float spriteSize = 32.0f;
 
     // setting src X based on current animation and sprite size
     float srcX = entityObject.m_currentAnimation != -1
         ? ((float)entityObject.m_animations[entityObject.m_currentAnimation].getCurrentFrameCount( ) * spriteSize)
-        : 0.f;
+        : (entityObject.m_spriteFrame - 1) * spriteSize;
 
     // FRect src and dst
     SDL_FRect srcRect{ srcX, 0, spriteSize, spriteSize };
@@ -78,15 +75,18 @@ void GameEngine::DrawGameEntity( GameSDLState &sdlState, GameState &gameState, G
         : SDL_FLIP_NONE;
 
     // render texture rotated
-    SDL_RenderTextureRotated( sdlState.renderer, entityObject.m_textureToDraw, &srcRect, &dstRect, 0, NULL, flipMode );
+    SDL_RenderTextureRotated( sdlState.renderer, entityObject.m_textureToDraw, &srcRect, &dstRect, 0, nullptr, flipMode );
 }
 
-void GameEngine::UpdateGameEntity( GameResources &gResources, GameSDLState &sdlState, GameState &gameState, GameEntity &entityObject, float deltaTime )
+void GameEngine::UpdateGameEntity( GameResources &gResources, GameSDLState &sdlState, GameState &gameState, GameEntity &entityObject, Uint64 deltaTime )
 {
-    // TODO: implement
+    // check if entity type is player
     if (entityObject.m_entityType == GameEntityType::Player)
     {
-        float currentDirection = 0;
+        // create float to hold current direction
+        int currentDirection = 0;
+
+        // check key pressed event for A,D
         if (sdlState.keysPressed[SDL_SCANCODE_A])
         {
             currentDirection += -1;
@@ -95,19 +95,25 @@ void GameEngine::UpdateGameEntity( GameResources &gResources, GameSDLState &sdlS
         {
             currentDirection += 1;
         }
+
         if (currentDirection != 0)
         {
+            // assign current direction to player entity
             entityObject.m_direction = currentDirection;
         }
+
+        // switch on player state in the union
         switch (entityObject.u_entityUnion.um_player.m_playerState)
         {
             case PlayerState::Idle:
+                // change the state to running
                 if (currentDirection != 0)
                 {
                     entityObject.u_entityUnion.um_player.m_playerState = PlayerState::Running;
                 }
                 break;
             case PlayerState::Running:
+                // change the state to idle
                 if (currentDirection == 0)
                 {
                     entityObject.u_entityUnion.um_player.m_playerState = PlayerState::Idle;
@@ -115,10 +121,10 @@ void GameEngine::UpdateGameEntity( GameResources &gResources, GameSDLState &sdlS
                 break;
         }
 
-        // add acceleration to velocity
-        entityObject.m_velocity += currentDirection * entityObject.m_acceleration * deltaTime;
+        // set velocity and acceleration based on max speed X and delta time
+        entityObject.m_velocity += (float)currentDirection * entityObject.m_acceleration * (float)deltaTime;
 
-        // add velocity to player position
-        entityObject.m_position += entityObject.m_velocity * deltaTime;
+        // update the position of the player based on delta time
+        entityObject.m_position += entityObject.m_velocity * (float)deltaTime;
     }
 }

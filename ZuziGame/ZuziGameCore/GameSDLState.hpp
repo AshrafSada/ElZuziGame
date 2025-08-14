@@ -5,10 +5,10 @@
 struct GameSDLState
 {
 public:
-    int winWidth, winHeight, logWidth, logHeight;
-    // surface colors RGB_A
-    int clrRed, clrGreen, clrBlue, clrAlpha;
     SDL_Window *window;
     SDL_Renderer *renderer;
+    int winWidth, winHeight, logWidth, logHeight;
+    int clrRed, clrGreen, clrBlue, clrAlpha;
+    bool isFullScreen;
     const bool *keysPressed;
 };

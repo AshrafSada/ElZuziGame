@@ -1,11 +1,18 @@
 #include "GameResources.h"
 
-void GameResources::loadResources( GameSDLState state )
+GameResources::GameResources( )
+    :
+    m_playerAnimations( ),
+    m_textures( )
+{ }
+
+void GameResources::loadResources( GameSDLState &state )
 {
     // resize vector to use indices
-    m_playerAnimations.resize( 5 );
+    m_playerAnimations.resize( 2 );
     // index player animation and add to it new animation
-    m_playerAnimations[ANIM_PLAYER_IDLE] = GameAnimation( 8, 1.6f );
+    GameAnimation gAnimation( 8, 1.6f );
+    m_playerAnimations[ANIM_PLAYER_IDLE] = gAnimation;
 }
 
 void GameResources::unLoadResources( )
@@ -24,14 +31,15 @@ SDL_Texture *GameResources::loadTexture( GameSDLState &state, const std::string 
     // nearest neighbor scaling to avoid blur
     SDL_SetTextureScaleMode( tex, SDL_SCALEMODE_NEAREST );
 
-    // adding texture to textures vector
-    m_textures.push_back( tex );
-
+    // check texture loaded
     if (!tex)
     {
         SDL_ShowSimpleMessageBox( SDL_MESSAGEBOX_ERROR, "Texture render error", "An error occurred while loading texture", state.window );
         return nullptr;
     }
+
+    // adding texture to textures vector
+    m_textures.push_back( tex );
 
     // return texture
     return tex;

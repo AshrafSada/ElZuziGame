@@ -7,28 +7,29 @@ int main( int argc, char *argv[] )
     GameEngine gEngine{ };
 
     // SDL initialization
-    gEngine.InitializeSDL( );
+    if (!gEngine.InitializeSDL( ))
+    {
+        return -1;
+    }
 
     // instance of Game SDL State
     GameSDLState sdlState{
-        .winWidth = 1024,
-        .winHeight = 780,
-        .logWidth = 960,
-        .logHeight = 480,
+        .winWidth = 1600,
+        .winHeight = 900,
+        .logWidth = 640,
+        .logHeight = 320,
         .clrRed = 33,
         .clrGreen = 44,
         .clrBlue = 66,
         .clrAlpha = 255,
-        .keysPressed = SDL_GetKeyboardState( NULL )
     };
+
     // create SDL window
     sdlState.window = gEngine.CreateSDLWindow( sdlState.winWidth, sdlState.winHeight, SDL_WINDOW_RESIZABLE );
 
     // create SDL renderer
     sdlState.renderer = gEngine.CreateSDLRenderer( sdlState.window, NULL, sdlState.logWidth, sdlState.logHeight );
 
-    // instance of game state
-    GameState gState{ };
     // instance of game resources
     GameResources gRes{ };
     // load game resources
@@ -37,23 +38,24 @@ int main( int argc, char *argv[] )
     // create idle texture
     SDL_Texture *idleTex = gRes.loadTexture( sdlState, "GameAssets/idle.png" );
 
+    // instance of game state
+    GameState gState{ sdlState };
+
     // create player
-    GameEntity player{ };
+    GameEntity player;
     player.m_entityType = GameEntityType::Player;
     player.m_textureToDraw = idleTex;
-    // set player max speed
-    player.m_acceleration = glm::vec2( 300, 0 );
-    player.m_maxSpeedX = 100;
-    // assign a copy of animations to player
     player.m_animations = gRes.m_playerAnimations;
     player.m_currentAnimation = gRes.ANIM_PLAYER_IDLE;
-    gState.m_gameEntityLayers[GameState::LAYER_IDX_CHARACTERS].push_back( player );
+    player.m_position = glm::vec2( 300, 150 );
+    player.m_maxSpeedX = 100;
+    gState.m_gameEntityLayers[gState.LAYER_IDX_CHARACTERS].push_back( player );
+
+    // Game SDL State get key pressed
+    sdlState.keysPressed = SDL_GetKeyboardState( nullptr );
 
     // set sprite movement (per second, not per frame)
-    const bool *keysPressed = SDL_GetKeyboardState( NULL );
     Uint64 startTicks = SDL_GetTicks( );
-
-    // load idle texture
 
     // create window loop
     bool isGameRunning = true;
@@ -62,7 +64,7 @@ int main( int argc, char *argv[] )
         // get current time ticks
         Uint64 currentTicks = SDL_GetTicks( );
         // get ticks delta in seconds
-        float deltaTicks = ((float)currentTicks - (float)startTicks) / 1000.f;
+        Uint64 deltaTicks = (currentTicks - startTicks) / 1000;
 
         // handling window events
         SDL_Event event{ 0 };
@@ -87,12 +89,13 @@ int main( int argc, char *argv[] )
             }
         }
 
-        // update sprite animation
+        // update all entity objects
         for (auto layers : gState.m_gameEntityLayers)
         {
             for (GameEntity &entityObj : layers)
             {
                 gEngine.UpdateGameEntity( gRes, sdlState, gState, entityObj, deltaTicks );
+
                 if (entityObj.m_currentAnimation != -1)
                 {
                     entityObj.m_animations[entityObj.m_currentAnimation].stepAnimation( deltaTicks );
@@ -100,12 +103,13 @@ int main( int argc, char *argv[] )
             }
         }
 
-        // using the renderer (RGB_A)
+        // set the renderer (RGB_A) surface colors
         SDL_SetRenderDrawColor( sdlState.renderer, sdlState.clrRed, sdlState.clrGreen, sdlState.clrBlue, sdlState.clrAlpha );
-        // clear the renderer
+
+        // clear the renderer to update with new buffer
         SDL_RenderClear( sdlState.renderer );
 
-        // draw the sprite
+        // Draw all entity objects
         for (auto layers : gState.m_gameEntityLayers)
         {
             for (GameEntity &entityObj : layers)
@@ -114,12 +118,17 @@ int main( int argc, char *argv[] )
             }
         }
 
-        // SDL built-in swap-chain will (flip) back buffer to the front buffer
-        // and present renderer with updated changes
+        // Present(display) updated renderer and Swap-Chain flip buffers
         SDL_RenderPresent( sdlState.renderer );
+        startTicks = currentTicks;
     }
 
+    // unload game resources
     gRes.unLoadResources( );
+
+    // clean up memory
     gEngine.CleanUp( sdlState );
+
+    // return 0 for success exit code
     return 0;
 }

@@ -10,14 +10,27 @@
 class GameResources
 {
 public:
-    // player idl index
+    GameResources( );
+    // player idle index
     const int ANIM_PLAYER_IDLE = 0;
-
 public:
-    // load resources with SDL state
-    void loadResources( GameSDLState state );
+    /// <summary>
+    /// Load Resources
+    /// </summary>
+    /// <param name="state"></param>
+    void loadResources( GameSDLState &state );
+
+    /// <summary>
+    /// Destroy textures unload resources
+    /// </summary>
     void unLoadResources( );
-    // load Texture from file, and return texture
+
+    /// <summary>
+    /// Load texture from file
+    /// </summary>
+    /// <param name="state:">Game SDL State</param>
+    /// <param name="filePath:">Texture file path</param>
+    /// <returns>SDL Texture *</returns>
     SDL_Texture *loadTexture( GameSDLState &state, const std::string &filePath );
 public:
     // player game animation vector

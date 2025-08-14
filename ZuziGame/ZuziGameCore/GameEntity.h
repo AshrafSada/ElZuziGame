@@ -79,7 +79,7 @@ public:
     glm::vec2  m_acceleration, m_position, m_velocity;
 public:
     // entity direction on X axis, -1=left, 1=right
-    float m_direction;
+    int m_direction;
     // max speed on X axis
     float m_maxSpeedX;
     // current animation index
