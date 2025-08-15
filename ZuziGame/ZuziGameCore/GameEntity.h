@@ -68,7 +68,6 @@ public:
     GameTimer m_flashTimer;
     // collider Rect
     SDL_FRect m_collider;
-public:
     // entity type
     GameEntityType m_entityType;
     // SDL texture to use by Draw function

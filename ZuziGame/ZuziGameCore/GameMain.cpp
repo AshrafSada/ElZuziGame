@@ -13,16 +13,16 @@ int main( int argc, char *argv[] )
     }
 
     // instance of Game SDL State
-    GameSDLState sdlState{
-        .winWidth = 1600,
-        .winHeight = 900,
-        .logWidth = 640,
-        .logHeight = 320,
-        .clrRed = 33,
-        .clrGreen = 44,
-        .clrBlue = 66,
-        .clrAlpha = 255,
-    };
+    GameSDLState sdlState;
+
+    sdlState.winWidth = 1600;
+    sdlState.winHeight = 900;
+    sdlState.logWidth = 640;
+    sdlState.logHeight = 320;
+    sdlState.clrRed = 33;
+    sdlState.clrGreen = 44;
+    sdlState.clrBlue = 66;
+    sdlState.clrAlpha = 255;
 
     // create SDL window
     sdlState.window = gEngine.CreateSDLWindow( sdlState.winWidth, sdlState.winHeight, SDL_WINDOW_RESIZABLE );
@@ -47,7 +47,7 @@ int main( int argc, char *argv[] )
     player.m_textureToDraw = idleTex;
     player.m_animations = gRes.m_playerAnimations;
     player.m_currentAnimation = gRes.ANIM_PLAYER_IDLE;
-    player.m_position = glm::vec2( 300, 150 );
+    player.m_position = glm::vec2( 300, 0 );
     player.m_maxSpeedX = 100;
     gState.m_gameEntityLayers[gState.LAYER_IDX_CHARACTERS].push_back( player );
 

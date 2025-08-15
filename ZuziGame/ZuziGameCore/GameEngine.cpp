@@ -107,14 +107,14 @@ void GameEngine::UpdateGameEntity( GameResources &gResources, GameSDLState &sdlS
         {
             case PlayerState::Idle:
                 // change the state to running
-                if (currentDirection != 0)
+                if (currentDirection)
                 {
                     entityObject.u_entityUnion.um_player.m_playerState = PlayerState::Running;
                 }
                 break;
             case PlayerState::Running:
                 // change the state to idle
-                if (currentDirection == 0)
+                if (!currentDirection)
                 {
                     entityObject.u_entityUnion.um_player.m_playerState = PlayerState::Idle;
                 }
