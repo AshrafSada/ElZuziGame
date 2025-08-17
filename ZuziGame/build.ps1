@@ -9,5 +9,5 @@ $libPath = ".\deps\lib"
 $libs = "SDL3.lib"
 
 # compile C command
-CL /Zi /I"$includePath" /Fo:.\build\main.obj /Fd:.\build\mygame.pdb /Fe:.\build\mygame.exe .\src\main.c /link /DEBUG /LIBPATH:"$libPath" $libs
+CL /Zi /showIncludes /I"$includePath" /Fo:.\build\main.obj /Fd:.\build\mygame.pdb /Fe:.\build\mygame.exe .\src\main.c /link /SUBSYSTEM:CONSOLE /DEBUG /LIBPATH:"$libPath" $libs
 
