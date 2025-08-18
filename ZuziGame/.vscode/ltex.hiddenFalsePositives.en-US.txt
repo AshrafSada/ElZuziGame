@@ -1,1 +1,0 @@
-{"rule":"ENGLISH_WORD_REPEAT_RULE","sentence":"^\\QCommand Switch Switch Prefix\\E$"}
